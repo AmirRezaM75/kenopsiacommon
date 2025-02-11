@@ -1,0 +1,1 @@
+This is a Golang package for common things which are repeated over and over in kenopsia services.
