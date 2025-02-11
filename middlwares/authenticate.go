@@ -9,7 +9,7 @@ import (
 )
 
 type UserService interface {
-	FindById(id string) (*models.User, error)
+	FindById(id string) (models.User, error)
 }
 
 type Authenticate struct {
