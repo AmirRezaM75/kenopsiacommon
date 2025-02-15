@@ -1,7 +1,6 @@
 package middlewares
 
 import (
-	"context"
 	"github.com/amirrezam75/kenopsiacommon/services"
 	"github.com/amirrezam75/kenopsiauser"
 	"net/http"
@@ -9,7 +8,7 @@ import (
 )
 
 type UserRepository interface {
-	FindById(id string) (kenopsiauser.UserResponse, error)
+	FindById(id string) (kenopsiauser.User, error)
 }
 
 type Authenticate struct {
@@ -50,7 +49,7 @@ func (a Authenticate) Handle(next http.Handler) http.Handler {
 			return
 		}
 
-		ctx := context.WithValue(r.Context(), "authUser", user)
+		ctx := services.ContextService{}.WithUser(r.Context(), user)
 
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
