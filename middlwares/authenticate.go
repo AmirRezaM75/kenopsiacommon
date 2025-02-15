@@ -2,22 +2,22 @@ package middlewares
 
 import (
 	"context"
-	"github.com/amirrezam75/kenopsiacommon/models"
 	"github.com/amirrezam75/kenopsiacommon/services"
+	"github.com/amirrezam75/kenopsiauser"
 	"net/http"
 	"strings"
 )
 
-type UserService interface {
-	FindById(id string) (models.User, error)
+type UserRepository interface {
+	FindById(id string) (kenopsiauser.UserResponse, error)
 }
 
 type Authenticate struct {
-	userService UserService
+	userRepository UserRepository
 }
 
-func NewAuthenticateMiddleware(userService UserService) Authenticate {
-	return Authenticate{userService: userService}
+func NewAuthenticateMiddleware(userRepository UserRepository) Authenticate {
+	return Authenticate{userRepository: userRepository}
 }
 
 func (a Authenticate) Handle(next http.Handler) http.Handler {
@@ -43,7 +43,7 @@ func (a Authenticate) Handle(next http.Handler) http.Handler {
 			return
 		}
 
-		user, err := a.userService.FindById(claims.Subject)
+		user, err := a.userRepository.FindById(claims.Subject)
 
 		if err != nil {
 			w.WriteHeader(http.StatusUnauthorized)
