@@ -9,7 +9,7 @@ const authUserCtxKey = "authUser"
 
 type ContextService struct{}
 
-func (cs ContextService) WithUser(ctx context.Context, user kenopsiauser.User) context.Context {
+func (cs ContextService) WithUser(ctx context.Context, user *kenopsiauser.User) context.Context {
 	return context.WithValue(ctx, authUserCtxKey, user)
 }
 

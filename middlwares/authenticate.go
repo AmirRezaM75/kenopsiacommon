@@ -49,7 +49,7 @@ func (a Authenticate) Handle(next http.Handler) http.Handler {
 			return
 		}
 
-		ctx := services.ContextService{}.WithUser(r.Context(), user)
+		ctx := services.ContextService{}.WithUser(r.Context(), &user)
 
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
